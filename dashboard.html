@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="light only">
+  <meta name="theme-color" content="#214E3D">
   <title>KAROL'S SCENTS - Dashboard</title>
   <link rel="stylesheet" href="dashboard.css">
 </head>
@@ -10,6 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="offline.js"></script>
 
   <div class="layout">
 
@@ -56,7 +59,7 @@
   </div>
   <div class="stat-card">
     <h3 id="expiredCount">0</h3>
-    <p>Expired drugs</p>
+    <p>Expired Products</p>
   </div>
   <div class="stat-card">
     <h3 id="outOfStockCount">0</h3>

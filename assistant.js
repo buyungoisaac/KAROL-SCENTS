@@ -73,25 +73,25 @@ function handleCommand(text) {
     return;
   }
 
-  if (command.includes("expired drugs") && command.includes("how many")) {
-    db.collection("drugs").get().then(function (snapshot) {
+  if (command.includes("expired Products") && command.includes("how many")) {
+    db.collection("Products").get().then(function (snapshot) {
       const today = new Date();
       let expiredCount = 0;
       snapshot.forEach(function (doc) {
         if (new Date(doc.data().expiry) < today) expiredCount++;
       });
-      addMessage(`There are ${expiredCount} expired drugs.`, "assistant");
+      addMessage(`There are ${expiredCount} expired Products.`, "assistant");
     });
     return;
   }
 
   if (command.includes("out of stock")) {
-    db.collection("drugs").get().then(function (snapshot) {
+    db.collection("Products").get().then(function (snapshot) {
       let outCount = 0;
       snapshot.forEach(function (doc) {
         if (doc.data().qty === 0) outCount++;
       });
-      addMessage(`There are ${outCount} drugs out of stock.`, "assistant");
+      addMessage(`There are ${outCount} Products out of stock.`, "assistant");
     });
     return;
   }
@@ -139,10 +139,10 @@ function handleCommand(text) {
     return;
   }
 
-  // --- Remove a single drug by name ---
-  if (command.startsWith("remove drug ")) {
-    const nameQuery = command.replace("remove drug ", "").trim();
-    db.collection("drugs").get().then(function (snapshot) {
+  // --- Remove a single Product by name ---
+  if (command.startsWith("remove Product ")) {
+    const nameQuery = command.replace("remove Product ", "").trim();
+    db.collection("Products").get().then(function (snapshot) {
       const matches = [];
       snapshot.forEach(function (doc) {
         const data = doc.data();
@@ -152,7 +152,7 @@ function handleCommand(text) {
       });
 
       if (matches.length === 0) {
-        addMessage(`No drug found matching "${nameQuery}".`, "assistant");
+        addMessage(`No Product found matching "${nameQuery}".`, "assistant");
         return;
       }
       if (matches.length > 1) {
@@ -162,20 +162,20 @@ function handleCommand(text) {
       }
 
       const target = matches[0];
-      addMessage(`Remove drug "${target.name}" (qty ${target.qty}, expiry ${target.expiry})? Reply yes or no.`, "assistant");
+      addMessage(`Remove Product "${target.name}" (qty ${target.qty}, expiry ${target.expiry})? Reply yes or no.`, "assistant");
       pendingAction = {
         confirm: function () {
-          db.collection("drugs").doc(target.id).delete();
-          addMessage(`Drug "${target.name}" removed.`, "assistant");
+          db.collection("Products").doc(target.id).delete();
+          addMessage(`Product "${target.name}" removed.`, "assistant");
         }
       };
     });
     return;
   }
 
-  // --- Remove ALL expired drugs at once ---
-  if (command.includes("remove expired drugs") || command.includes("clear expired drugs")) {
-    db.collection("drugs").get().then(function (snapshot) {
+  // --- Remove ALL expired Products at once ---
+  if (command.includes("remove expired Products") || command.includes("clear expired Products")) {
+    db.collection("Products").get().then(function (snapshot) {
       const today = new Date();
       const expired = [];
       snapshot.forEach(function (doc) {
@@ -186,18 +186,18 @@ function handleCommand(text) {
       });
 
       if (expired.length === 0) {
-        addMessage("There are no expired drugs to remove.", "assistant");
+        addMessage("There are no expired Products to remove.", "assistant");
         return;
       }
 
       const names = expired.map(function (d) { return d.name; }).join(", ");
-      addMessage(`Remove ${expired.length} expired drug(s): ${names}? Reply yes or no.`, "assistant");
+      addMessage(`Remove ${expired.length} expired Product(s): ${names}? Reply yes or no.`, "assistant");
       pendingAction = {
         confirm: function () {
           expired.forEach(function (d) {
-            db.collection("drugs").doc(d.id).delete();
+            db.collection("Products").doc(d.id).delete();
           });
-          addMessage(`${expired.length} expired drug(s) removed.`, "assistant");
+          addMessage(`${expired.length} expired Product(s) removed.`, "assistant");
         }
       };
     });
@@ -265,7 +265,7 @@ function handleCommand(text) {
   }
 
   // Nothing matched
-  addMessage("I don't understand that command. Try: 'go to inventory', 'how many patients', 'remove patient John', 'remove drug Amoxyl', 'remove expired drugs', 'remove sale 3', 'change sale 3 date to August 20 2026 3:00 PM'.", "assistant");
+  addMessage("I don't understand that command. Try: 'go to inventory', 'how many patients', 'remove patient John', 'remove Product Amoxyl', 'remove expired Products', 'remove sale 3', 'change sale 3 date to August 20 2026 3:00 PM'.", "assistant");
 }
 
 sendBtn.addEventListener("click", function () {
@@ -283,4 +283,4 @@ chatInput.addEventListener("keyup", function (event) {
   }
 });
 
-addMessage("Hi! I'm your assistant. Try commands like 'go to inventory', 'how many patients', 'remove drug Amoxyl', or 'remove sale 3'.", "assistant");
+addMessage("Hi! I'm your assistant. Try commands like 'go to inventory', 'how many patients', 'remove Product Amoxyl', or 'remove sale 3'.", "assistant");

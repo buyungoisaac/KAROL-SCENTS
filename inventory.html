@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clinic ERP - Inventory</title>
+  <meta name="color-scheme" content="light only">
+  <meta name="theme-color" content="#214E3D">
+  <title>KAROL'S SCENTS - Inventory</title>
   <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="inventory.css">
 </head>
@@ -11,12 +13,13 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="offline.js"></script>
 
   <div class="layout">
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <div class="logo">🏥</div>
+      <div class="logo">🧴✨🌸</div>
       <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
       <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
       <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
@@ -46,17 +49,17 @@
 
       <div class="inventory-box">
 
-        <div class="add-drug">
-            <div class="drug-name-wrap">
-              <input type="text" id="drugName" placeholder="Search or enter drug name..." autocomplete="off" aria-label="Search or enter drug name">
-              <div id="drugSuggestions" class="drug-suggestions" role="listbox" hidden></div>
-              <small id="drugNameHint" class="drug-name-hint" aria-live="polite">Start typing to find an existing drug or insert a new one.</small>
+        <div class="add-Products">
+            <div class="Products-name-wrap">
+              <input type="text" id="ProductsName" placeholder="Search or enter Products name..." autocomplete="off" aria-label="Search or enter Products name">
+              <div id="Productsuggestions" class="Products-suggestions" role="listbox" hidden></div>
+              <small id="ProductsNameHint" class="Products-name-hint" aria-live="polite">Start typing to find an existing Products or insert a new one.</small>
             </div>
-            <input type="number" id="drugQty" placeholder="Quantity" min="1">
-            <input type="number" id="drugCostPrice" placeholder="Cost price" min="0">
-            <input type="number" id="drugSellingPrice" placeholder="Selling price" min="0">
-            <input type="date" id="drugExpiry">
-            <button id="addDrugBtn">Add to batch</button>
+            <input type="number" id="ProductsQty" placeholder="Quantity" min="1">
+            <input type="number" id="ProductsCostPrice" placeholder="Cost price" min="0">
+            <input type="number" id="ProductsellingPrice" placeholder="Selling price" min="0">
+            <input type="date" id="ProductsExpiry">
+            <button id="addProductsBtn">Add to batch</button>
         </div>
 
         <!-- Pending batch: items wait here until submitted -->
@@ -71,17 +74,17 @@
           <table class="batch-table">
             <thead>
               <tr>
-                <th>Drug</th><th>Qty</th><th>Cost</th><th>Selling</th><th>Expiry</th><th>Result</th><th></th>
+                <th>Products</th><th>Qty</th><th>Cost</th><th>Selling</th><th>Expiry</th><th>Result</th><th></th>
               </tr>
             </thead>
             <tbody id="batchBody"></tbody>
           </table>
         </div>
 
-        <table id="drugsTable">
+        <table id="ProductsTable">
   <thead>
   <tr>
-    <th>Drug</th>
+    <th>Products</th>
     <th>Quantity</th>
     <th>Cost Price</th>
     <th>Selling Price</th>
@@ -90,8 +93,8 @@
     <th></th>
   </tr>
 </thead>
-  <tbody id="drugsBody">
-    <!-- Drug rows added here by JavaScript -->
+  <tbody id="ProductsBody">
+    <!-- Products rows added here by JavaScript -->
   </tbody>
 </table>
   </div>

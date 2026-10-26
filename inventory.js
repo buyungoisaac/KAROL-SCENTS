@@ -10,23 +10,23 @@ if (!isManager()) {
 
 document.getElementById("userNameDisplay").textContent = currentUser.name;
 
-const drugNameInput = document.getElementById("drugName");
-const drugQtyInput = document.getElementById("drugQty");
-const drugCostPriceInput = document.getElementById("drugCostPrice");
-const drugSellingPriceInput = document.getElementById("drugSellingPrice");
-const drugExpiryInput = document.getElementById("drugExpiry");
-const addDrugBtn = document.getElementById("addDrugBtn");
-const drugsBody = document.getElementById("drugsBody");
+const ProductNameInput = document.getElementById("ProductName");
+const ProductQtyInput = document.getElementById("ProductQty");
+const ProductCostPriceInput = document.getElementById("ProductCostPrice");
+const ProductSellingPriceInput = document.getElementById("ProductSellingPrice");
+const ProductExpiryInput = document.getElementById("ProductExpiry");
+const addProductBtn = document.getElementById("addProductBtn");
+const ProductsBody = document.getElementById("ProductsBody");
 
-const drugSuggestions = document.getElementById("drugSuggestions");
-const drugNameHint = document.getElementById("drugNameHint");
+const ProductSuggestions = document.getElementById("ProductSuggestions");
+const ProductNameHint = document.getElementById("ProductNameHint");
 const batchBox = document.getElementById("batchBox");
 const batchBody = document.getElementById("batchBody");
 const batchCount = document.getElementById("batchCount");
 const submitBatchBtn = document.getElementById("submitBatchBtn");
 const clearBatchBtn = document.getElementById("clearBatchBtn");
 
-let drugs = [];   // live list from Firestore
+let Products = [];   // live list from Firestore
 let batch = [];   // items waiting to be submitted
 
 function escapeHtml(text) {
@@ -54,149 +54,149 @@ function getStatus(qty, expiry) {
   }
 }
 
-// Finds a drug already in the system with the same name AND same expiry date.
+// Finds a Product already in the system with the same name AND same expiry date.
 // (Same name but a different expiry is kept as a separate row so the earlier
 // batch's expiry date is never lost.)
 function findExisting(name, expiry) {
   const key = normalizeName(name);
-  return drugs.find(function (d) {
+  return Products.find(function (d) {
     return normalizeName(d.name) === key && d.expiry === expiry;
   });
 }
 
-function findDrugByName(name) {
+function findProductByName(name) {
   const key = normalizeName(name);
-  return drugs.find(function (drug) {
-    return normalizeName(drug.name) === key;
+  return Products.find(function (Product) {
+    return normalizeName(Product.name) === key;
   });
 }
 
-function getMatchingDrugNames(term) {
+function getMatchingProductNames(term) {
   if (!term) return [];
   const unique = new Map();
-  drugs.forEach(function (drug) {
-    const key = normalizeName(drug.name);
-    if (key.includes(term) && !unique.has(key)) unique.set(key, drug.name);
+  Products.forEach(function (Product) {
+    const key = normalizeName(Product.name);
+    if (key.includes(term) && !unique.has(key)) unique.set(key, Product.name);
   });
   return Array.from(unique.values()).sort(function (a, b) {
     return a.localeCompare(b);
   }).slice(0, 8);
 }
 
-function hideDrugSuggestions() {
-  drugSuggestions.hidden = true;
-  drugSuggestions.innerHTML = "";
+function hideProductSuggestions() {
+  ProductSuggestions.hidden = true;
+  ProductSuggestions.innerHTML = "";
 }
 
-function selectExistingDrug(name) {
-  drugNameInput.value = name;
-  const existing = findDrugByName(name);
+function selectExistingProduct(name) {
+  ProductNameInput.value = name;
+  const existing = findProductByName(name);
   if (existing) {
-    drugCostPriceInput.value = existing.costPrice ?? "";
-    drugSellingPriceInput.value = existing.sellingPrice ?? "";
-    drugNameHint.textContent = "Existing drug selected. Enter quantity and expiry for this batch.";
+    ProductCostPriceInput.value = existing.costPrice ?? "";
+    ProductSellingPriceInput.value = existing.sellingPrice ?? "";
+    ProductNameHint.textContent = "Existing Product selected. Enter quantity and expiry for this batch.";
   }
-  addDrugBtn.textContent = "Add to batch";
-  renderDrugs();
-  hideDrugSuggestions();
-  drugQtyInput.focus();
+  addProductBtn.textContent = "Add to batch";
+  renderProducts();
+  hideProductSuggestions();
+  ProductQtyInput.focus();
 }
 
-function updateDrugNameSearch() {
-  const term = normalizeName(drugNameInput.value);
-  renderDrugs();
+function updateProductNameSearch() {
+  const term = normalizeName(ProductNameInput.value);
+  renderProducts();
   if (!term) {
-    hideDrugSuggestions();
-    drugNameHint.textContent = "Start typing to find an existing drug or insert a new one.";
-    addDrugBtn.textContent = "Add to batch";
+    hideProductSuggestions();
+    ProductNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
+    addProductBtn.textContent = "Add to batch";
     return;
   }
 
-  const matches = getMatchingDrugNames(term);
-  drugSuggestions.innerHTML = "";
+  const matches = getMatchingProductNames(term);
+  ProductSuggestions.innerHTML = "";
 
   matches.forEach(function (name) {
     const option = document.createElement("button");
     option.type = "button";
-    option.className = "drug-suggestion";
+    option.className = "Product-suggestion";
     option.setAttribute("role", "option");
     option.textContent = name;
     option.addEventListener("click", function () {
-      selectExistingDrug(name);
+      selectExistingProduct(name);
     });
-    drugSuggestions.appendChild(option);
+    ProductSuggestions.appendChild(option);
   });
 
-  const exact = findDrugByName(drugNameInput.value);
+  const exact = findProductByName(ProductNameInput.value);
   if (!exact) {
     const insertOption = document.createElement("button");
     insertOption.type = "button";
-    insertOption.className = "drug-suggestion insert-suggestion";
+    insertOption.className = "Product-suggestion insert-suggestion";
     insertOption.setAttribute("role", "option");
-    insertOption.textContent = "＋ Insert new product: " + drugNameInput.value.trim();
+    insertOption.textContent = "＋ Insert new product: " + ProductNameInput.value.trim();
     insertOption.addEventListener("click", function () {
-      drugNameInput.value = drugNameInput.value.trim();
-      addDrugBtn.textContent = "Insert new product";
-      drugNameHint.textContent = "New product: fill in quantity, cost, selling price and expiry, then insert it into the batch.";
-      hideDrugSuggestions();
-      drugQtyInput.focus();
+      ProductNameInput.value = ProductNameInput.value.trim();
+      addProductBtn.textContent = "Insert new product";
+      ProductNameHint.textContent = "New product: fill in quantity, cost, selling price and expiry, then insert it into the batch.";
+      hideProductSuggestions();
+      ProductQtyInput.focus();
     });
-    drugSuggestions.appendChild(insertOption);
-    addDrugBtn.textContent = "Insert new product";
-    drugNameHint.textContent = matches.length
+    ProductSuggestions.appendChild(insertOption);
+    addProductBtn.textContent = "Insert new product";
+    ProductNameHint.textContent = matches.length
       ? "No exact match. Choose a suggestion or insert this as a new product."
       : "No matching product found. Insert it as a new product.";
   } else {
-    addDrugBtn.textContent = "Add to batch";
-    drugNameHint.textContent = "Existing product found. Choose it to use its saved prices, or enter a new batch.";
+    addProductBtn.textContent = "Add to batch";
+    ProductNameHint.textContent = "Existing product found. Choose it to use its saved prices, or enter a new batch.";
   }
 
-  drugSuggestions.hidden = false;
+  ProductSuggestions.hidden = false;
 }
 
-// ---------- Main stock table (filtered by the combined drug search) ----------
-function renderDrugs() {
-  const term = normalizeName(drugNameInput.value);
+// ---------- Main stock table (filtered by the combined Product search) ----------
+function renderProducts() {
+  const term = normalizeName(ProductNameInput.value);
 
-  const visible = drugs
-    .filter(function (drug) {
-      return term === "" || normalizeName(drug.name).includes(term);
+  const visible = Products
+    .filter(function (Product) {
+      return term === "" || normalizeName(Product.name).includes(term);
     })
     .sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
 
-  drugsBody.innerHTML = "";
+  ProductsBody.innerHTML = "";
 
   if (visible.length === 0) {
     const row = document.createElement("tr");
     row.innerHTML = `<td colspan="7" class="empty-row">${
-      term === "" ? "No drugs in inventory yet." : "No drugs match your search."
+      term === "" ? "No Products in inventory yet." : "No Products match your search."
     }</td>`;
-    drugsBody.appendChild(row);
+    ProductsBody.appendChild(row);
     return;
   }
 
-  visible.forEach(function (drug) {
-    const status = getStatus(drug.qty, drug.expiry);
+  visible.forEach(function (Product) {
+    const status = getStatus(Product.qty, Product.expiry);
 
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${escapeHtml(drug.name)}</td>
-      <td>${drug.qty}</td>
-      <td>${drug.costPrice}</td>
-      <td>${drug.sellingPrice}</td>
-      <td>${escapeHtml(drug.expiry)}</td>
+      <td>${escapeHtml(Product.name)}</td>
+      <td>${Product.qty}</td>
+      <td>${Product.costPrice}</td>
+      <td>${Product.sellingPrice}</td>
+      <td>${escapeHtml(Product.expiry)}</td>
       <td class="${status.className}">${status.text}</td>
-      <td><button class="delete-btn" data-id="${drug.id}">Delete</button></td>
+      <td><button class="delete-btn" data-id="${Product.id}">Delete</button></td>
     `;
-    drugsBody.appendChild(row);
+    ProductsBody.appendChild(row);
   });
 
   document.querySelectorAll(".delete-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       const id = btn.dataset.id;
-      db.collection("drugs").doc(id).delete();
+      db.collection("Products").doc(id).delete();
     });
   });
 }
@@ -234,33 +234,33 @@ function renderBatch() {
   });
 }
 
-// Live listener - keeps drugs updated automatically across all devices
-db.collection("drugs").onSnapshot(function (snapshot) {
-  drugs = [];
+// Live listener - keeps Products updated automatically across all devices
+db.collection("Products").onSnapshot(function (snapshot) {
+  Products = [];
   snapshot.forEach(function (doc) {
-    drugs.push({ id: doc.id, ...doc.data() });
+    Products.push({ id: doc.id, ...doc.data() });
   });
-  renderDrugs();
+  renderProducts();
   renderBatch(); // keeps the "adds to existing" hints accurate
 });
 
-drugNameInput.addEventListener("input", updateDrugNameSearch);
-drugNameInput.addEventListener("focus", function () {
-  if (drugNameInput.value.trim()) updateDrugNameSearch();
+ProductNameInput.addEventListener("input", updateProductNameSearch);
+ProductNameInput.addEventListener("focus", function () {
+  if (ProductNameInput.value.trim()) updateProductNameSearch();
 });
 document.addEventListener("click", function (event) {
-  if (!event.target.closest(".drug-name-wrap")) hideDrugSuggestions();
+  if (!event.target.closest(".Product-name-wrap")) hideProductSuggestions();
 });
 
 // ---------- Add an item to the pending batch ----------
-addDrugBtn.addEventListener("click", function () {
-  const name = drugNameInput.value.trim();
-  const qty = Number(drugQtyInput.value);
-  const costPrice = Number(drugCostPriceInput.value);
-  const sellingPrice = Number(drugSellingPriceInput.value);
-  const expiry = drugExpiryInput.value;
+addProductBtn.addEventListener("click", function () {
+  const name = ProductNameInput.value.trim();
+  const qty = Number(ProductQtyInput.value);
+  const costPrice = Number(ProductCostPriceInput.value);
+  const sellingPrice = Number(ProductSellingPriceInput.value);
+  const expiry = ProductExpiryInput.value;
 
-  if (name === "" || drugQtyInput.value === "" || drugCostPriceInput.value === "" || drugSellingPriceInput.value === "" || expiry === "") {
+  if (name === "" || ProductQtyInput.value === "" || ProductCostPriceInput.value === "" || ProductSellingPriceInput.value === "" || expiry === "") {
     alert("Please fill in all fields.");
     return;
   }
@@ -270,7 +270,7 @@ addDrugBtn.addEventListener("click", function () {
     return;
   }
 
-  // Same drug + same expiry already in the batch? Combine them.
+  // Same Product + same expiry already in the batch? Combine them.
   const sameInBatch = batch.find(function (b) {
     return normalizeName(b.name) === normalizeName(name) && b.expiry === expiry;
   });
@@ -283,16 +283,16 @@ addDrugBtn.addEventListener("click", function () {
     batch.push({ name: name, qty: qty, costPrice: costPrice, sellingPrice: sellingPrice, expiry: expiry });
   }
 
-  drugNameInput.value = "";
-  drugQtyInput.value = "";
-  drugCostPriceInput.value = "";
-  drugSellingPriceInput.value = "";
-  drugExpiryInput.value = "";
-  drugNameInput.focus();
-  hideDrugSuggestions();
-  drugNameHint.textContent = "Start typing to find an existing drug or insert a new one.";
-  addDrugBtn.textContent = "Add to batch";
-  renderDrugs();
+  ProductNameInput.value = "";
+  ProductQtyInput.value = "";
+  ProductCostPriceInput.value = "";
+  ProductSellingPriceInput.value = "";
+  ProductExpiryInput.value = "";
+  ProductNameInput.focus();
+  hideProductSuggestions();
+  ProductNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
+  addProductBtn.textContent = "Add to batch";
+  renderProducts();
 
   renderBatch();
 });
@@ -320,16 +320,16 @@ submitBatchBtn.addEventListener("click", function () {
     const existing = findExisting(item.name, item.expiry);
 
     if (existing) {
-      // Same drug + expiry: add the quantity on top of the current stock
+      // Same Product + expiry: add the quantity on top of the current stock
       // (increment is safe even if a sale happens at the same moment)
-      writeBatch.update(db.collection("drugs").doc(existing.id), {
+      writeBatch.update(db.collection("Products").doc(existing.id), {
         qty: firebase.firestore.FieldValue.increment(item.qty),
         costPrice: item.costPrice,
         sellingPrice: item.sellingPrice
       });
       merged++;
     } else {
-      writeBatch.set(db.collection("drugs").doc(), {
+      writeBatch.set(db.collection("Products").doc(), {
         name: item.name,
         qty: item.qty,
         costPrice: item.costPrice,
@@ -340,18 +340,14 @@ submitBatchBtn.addEventListener("click", function () {
     }
   });
 
-  writeBatch.commit()
-    .then(function () {
-      alert(`Batch saved: ${merged} added to existing stock, ${created} new.`);
-      batch = [];
-      renderBatch();
-    })
-    .catch(function (error) {
-      console.error(error);
-      alert("Could not save the batch. Nothing was changed, please try again.");
-    })
-    .finally(function () {
-      submitBatchBtn.disabled = false;
-      submitBatchBtn.textContent = "Submit batch";
-    });
+  writeBatch.commit().catch(function (error) {
+  console.error(error);
+  alert("Could not save the batch. Please try again.");
 });
+
+alert(`Batch saved: ${merged} added to existing stock, ${created} new. It will sync when online.`);
+batch = [];
+renderBatch();
+submitBatchBtn.disabled = false;
+submitBatchBtn.textContent = "Submit batch";
+    });

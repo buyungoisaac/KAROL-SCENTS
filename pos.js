@@ -8,9 +8,9 @@ document.getElementById("userNameDisplay").textContent = currentUser.name;
 
 const productSearch = document.getElementById("productSearch");
 const productList = document.getElementById("productList");
-let selectedDrugId = "";
+let selectedProductId = "";
 let activeIndex = -1;
-let visibleDrugs = [];
+let visibleProducts = [];
 const qtyInput = document.getElementById("qtyInput");
 const priceInput = document.getElementById("priceInput");
 const addBtn = document.getElementById("addBtn");
@@ -21,7 +21,7 @@ const saleDateTimeInput = document.getElementById("saleDateTime");
 
 let grandTotal = 0;
 let cartItems = [];
-let drugs = []; // live list of drugs from Firestore
+let Products = []; // live list of Products from Firestore
 
 function clearDateTime() {
   saleDateTimeInput.value = "";
@@ -44,8 +44,8 @@ function expiryInfo(expiry) {
   return { text: "Expires in " + y + (y === 1 ? " year" : " years"), cls: "p-expiry-ok" };
 }
 
-function isSellable(drug) {
-  return drug.qty > 0 && new Date(drug.expiry) >= new Date();
+function isSellable(Product) {
+  return Product.qty > 0 && new Date(Product.expiry) >= new Date();
 }
 
 function openList() { productList.classList.add("open"); }
@@ -64,62 +64,62 @@ function setActive(index) {
 function renderSuggestions() {
   const term = productSearch.value.trim().toLowerCase();
 
-  visibleDrugs = drugs
+  visibleProducts = Products
     .filter(function (d) { return d.name && d.name.toLowerCase().includes(term); })
     .sort(function (a, b) { return a.name.localeCompare(b.name); });
 
   productList.innerHTML = "";
 
-  if (visibleDrugs.length === 0) {
+  if (visibleProducts.length === 0) {
     productList.innerHTML = '<li class="p-empty">No products found</li>';
     activeIndex = -1;
     return;
   }
 
-  visibleDrugs.forEach(function (drug) {
-    const exp = expiryInfo(drug.expiry);
+  visibleProducts.forEach(function (Product) {
+    const exp = expiryInfo(Product.expiry);
     const li = document.createElement("li");
-    li.dataset.id = drug.id;
-    if (!isSellable(drug)) li.classList.add("disabled");
+    li.dataset.id = Product.id;
+    if (!isSellable(Product)) li.classList.add("disabled");
     li.innerHTML = `
       <div class="p-name"></div>
       <div class="p-meta">
         <span class="${exp.cls}">${exp.text}</span>
-        <span>${drug.qty} available</span>
-        <span class="p-price">${formatMoney(drug.sellingPrice)}</span>
+        <span>${Product.qty} available</span>
+        <span class="p-price">${formatMoney(Product.sellingPrice)}</span>
       </div>
     `;
-    li.querySelector(".p-name").textContent = drug.name;
+    li.querySelector(".p-name").textContent = Product.name;
     productList.appendChild(li);
   });
 
   setActive(0);
 }
 
-function chooseDrug(id) {
-  const drug = drugs.find(function (d) { return d.id === id; });
-  if (!drug) return;
-  if (!isSellable(drug)) {
-    alert(drug.qty <= 0 ? drug.name + " is out of stock." : drug.name + " is expired.");
+function chooseProduct(id) {
+  const Product = Products.find(function (d) { return d.id === id; });
+  if (!Product) return;
+  if (!isSellable(Product)) {
+    alert(Product.qty <= 0 ? Product.name + " is out of stock." : Product.name + " is expired.");
     return;
   }
-  selectedDrugId = drug.id;
-  productSearch.value = drug.name;
-  priceInput.value = drug.sellingPrice;
+  selectedProductId = Product.id;
+  productSearch.value = Product.name;
+  priceInput.value = Product.sellingPrice;
   closeList();
   qtyInput.focus();
   qtyInput.select();
 }
 
 productSearch.addEventListener("input", function () {
-  selectedDrugId = "";   // typing again means a new search
+  selectedProductId = "";   // typing again means a new search
   priceInput.value = "";
   renderSuggestions();
   openList();
 });
 
 productSearch.addEventListener("focus", function () {
-  if (!selectedDrugId) { renderSuggestions(); }
+  if (!selectedProductId) { renderSuggestions(); }
   openList();
   productSearch.select();
 });
@@ -131,7 +131,7 @@ productSearch.addEventListener("keydown", function (e) {
     const items = productList.querySelectorAll("li[data-id]");
     if (activeIndex >= 0 && items[activeIndex]) {
       e.preventDefault();
-      chooseDrug(items[activeIndex].dataset.id);
+      chooseProduct(items[activeIndex].dataset.id);
     }
   }
   else if (e.key === "Escape") { closeList(); }
@@ -140,18 +140,18 @@ productSearch.addEventListener("keydown", function (e) {
 // mousedown (not click) so it fires before the input loses focus
 productList.addEventListener("mousedown", function (e) {
   const li = e.target.closest("li[data-id]");
-  if (li) { e.preventDefault(); chooseDrug(li.dataset.id); }
+  if (li) { e.preventDefault(); chooseProduct(li.dataset.id); }
 });
 
 document.addEventListener("mousedown", function (e) {
   if (!e.target.closest(".product-search")) closeList();
 });
 
-// Live listener - keeps drug stock/prices updated automatically
-db.collection("drugs").onSnapshot(function (snapshot) {
-  drugs = [];
+// Live listener - keeps Product stock/prices updated automatically
+db.collection("Products").onSnapshot(function (snapshot) {
+  Products = [];
   snapshot.forEach(function (doc) {
-    drugs.push({ id: doc.id, ...doc.data() });
+    Products.push({ id: doc.id, ...doc.data() });
   });
   if (productList.classList.contains("open")) { renderSuggestions(); }
 });
@@ -162,16 +162,16 @@ function updateGrandTotal() {
 }
 
 addBtn.addEventListener("click", function () {
-  const selectedId = selectedDrugId;
+  const selectedId = selectedProductId;
 
   if (selectedId === "") {
     alert("Please search for and select a product first.");
     return;
   }
 
-  const drug = drugs.find(function (d) { return d.id === selectedId; });
+  const Product = Products.find(function (d) { return d.id === selectedId; });
 
-  if (!drug) {
+  if (!Product) {
     alert("This product is no longer available.");
     return;
   }
@@ -183,8 +183,8 @@ addBtn.addEventListener("click", function () {
     return;
   }
 
-  if (qty > drug.qty) {
-    alert(`Only ${drug.qty} units of ${drug.name} in stock.`);
+  if (qty > Product.qty) {
+    alert(`Only ${Product.qty} units of ${Product.name} in stock.`);
     return;
   }
 
@@ -198,14 +198,14 @@ addBtn.addEventListener("click", function () {
   const total = price * qty;
 
   // Reduce stock in Firestore immediately
-  db.collection("drugs").doc(drug.id).update({
-    qty: drug.qty - qty
+  db.collection("Products").doc(Product.id).update({
+    qty: Product.qty - qty
   });
 
   // Build cart row
   const row = document.createElement("tr");
   row.innerHTML = `
-    <td>${drug.name}</td>
+    <td>${Product.name}</td>
     <td><input type="number" class="cart-price" min="0" step="any" value="${price}"></td>
     <td>${qty}</td>
     <td class="line-total">${total}</td>
@@ -213,7 +213,7 @@ addBtn.addEventListener("click", function () {
   `;
   cartBody.appendChild(row);
 
-  const cartItem = { drugId: drug.id, name: drug.name, price: price, qty: qty, total: total };
+  const cartItem = { ProductId: Product.id, name: Product.name, price: price, qty: qty, total: total };
   cartItems.push(cartItem);
   updateGrandTotal();
 
@@ -231,10 +231,10 @@ addBtn.addEventListener("click", function () {
   const removeButton = row.querySelector(".remove-btn");
   removeButton.addEventListener("click", function () {
     // Restore stock in Firestore
-    const currentDrug = drugs.find(function (d) { return d.id === drug.id; });
-    if (currentDrug) {
-      db.collection("drugs").doc(drug.id).update({
-        qty: currentDrug.qty + qty
+    const currentProduct = Products.find(function (d) { return d.id === Product.id; });
+    if (currentProduct) {
+      db.collection("Products").doc(Product.id).update({
+        qty: currentProduct.qty + qty
       });
     }
 
@@ -246,7 +246,7 @@ addBtn.addEventListener("click", function () {
   qtyInput.value = 1;
   priceInput.value = "";
   productSearch.value = "";
-  selectedDrugId = "";
+  selectedProductId = "";
   productSearch.focus();
 });
 

@@ -23,19 +23,19 @@ db.collection("patients").onSnapshot(function (snapshot) {
   document.getElementById("patientsCount").textContent = snapshot.size;
 });
 
-// Live expired / out-of-stock drug counts
-db.collection("drugs").onSnapshot(function (snapshot) {
+// Live expired / out-of-stock Product counts
+db.collection("Products").onSnapshot(function (snapshot) {
   const today = new Date();
   let expiredCount = 0;
   let outOfStockCount = 0;
 
   snapshot.forEach(function (doc) {
-    const drug = doc.data();
-    const expiryDate = new Date(drug.expiry);
+    const Product = doc.data();
+    const expiryDate = new Date(Product.expiry);
     if (expiryDate < today) {
       expiredCount++;
     }
-    if (drug.qty === 0) {
+    if (Product.qty === 0) {
       outOfStockCount++;
     }
   });
