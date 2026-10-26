@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAROL'S SCENTS - Team</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="pos.css">
+</head>
+<body>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="logo">🧴✨🌸</div>
+      <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
+      <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
+      <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
+      <a href="inventory.html" style="text-decoration: none;"><div class="nav-item" id="nav-inventory">💊</div></a>
+      <a href="receipts.html" style="text-decoration: none;"><div class="nav-item" id="nav-receipts">🧾</div></a>
+      <a href="team.html" style="text-decoration: none;"><div class="nav-item" id="nav-team">👥</div></a>
+    </div>
+
+    <div class="main">
+      <div class="topbar">
+        <h2>Team</h2>
+       <div class="profile-menu">
+  <div class="profile-trigger" id="profileTrigger">
+    <div class="avatar">👤</div>
+    <span id="userNameDisplay"></span>
+    <span class="caret">▾</span>
+  </div>
+  <div class="profile-dropdown" id="profileDropdown">
+    <div class="dropdown-item disabled" id="userRoleDisplay"></div>
+    <div class="dropdown-divider"></div>
+    <div class="dropdown-item" onclick="logout()"> Sign Out</div>
+  </div>
+</div>
+
+      <div class="pos-box">
+        <div class="add-product">
+          <input type="text" id="newName" placeholder="Full name">
+          <input type="text" id="newPhone" placeholder="Phone number">
+          <input type="password" id="newPassword" placeholder="Password">
+          <select id="newRole">
+            <option value="member">Member</option>
+            <option value="manager">Manager</option>
+          </select>
+          <button id="addUserBtn">Add User</button>
+        </div>
+
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="auth.js"></script>
+<script src="team.js"></script>
+</body>
+</html>

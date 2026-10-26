@@ -1,0 +1,206 @@
+
+.records-box {
+  background: var(--color-surface, #FFFFFF);
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border, #E3DED2);
+  box-shadow: 0 4px 12px rgba(33, 78, 61, 0.08);
+  color: var(--color-text, #303832);
+  box-sizing: border-box;
+}
+
+/* Add patient form */
+.add-patient {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  align-items: center;
+}
+
+.add-patient input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border, #E3DED2);
+  border-radius: 9px;
+  background: var(--color-surface, #FFFFFF);
+  color: var(--color-text, #303832);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.add-patient input:focus,
+#searchBox:focus {
+  border-color: var(--color-primary, #214E3D);
+  box-shadow: 0 0 0 3px rgba(33, 78, 61, 0.10);
+}
+
+/* Add patient button */
+.add-patient button {
+  padding: 11px 18px;
+  background-color: var(--color-primary, #214E3D);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-patient button:hover {
+  background-color: var(--color-primary-hover, #193B2E);
+}
+
+.add-patient button:active {
+  transform: scale(0.98);
+}
+
+/* Patient search */
+#searchBox {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid var(--color-border, #E3DED2);
+  border-radius: 9px;
+  background: var(--color-background, #FAF7F0);
+  color: var(--color-text, #303832);
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Records table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface, #FFFFFF);
+}
+
+th {
+  background-color: var(--color-primary, #214E3D);
+  color: #FFFFFF;
+  text-align: left;
+  padding: 12px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+th:first-child {
+  border-radius: 7px 0 0 0;
+}
+
+th:last-child {
+  border-radius: 0 7px 0 0;
+}
+
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--color-border, #E3DED2);
+  color: var(--color-text, #303832);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+tbody tr {
+  transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+  background-color: var(--color-background, #FAF7F0);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Delete button */
+.delete-btn {
+  color: #A33A32;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 9px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #FBEDEA;
+}
+
+/* Product and sales buttons */
+.add-product button,
+#completeSaleBtn {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 9px;
+}
+
+/* Remove item button */
+.remove-btn {
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .records-box {
+    padding: 14px;
+    border-radius: 11px;
+  }
+
+  .add-patient {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-patient input,
+  .add-patient button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .add-patient button {
+    padding: 12px;
+  }
+
+  #searchBox {
+    padding: 11px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .delete-btn {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .add-product button,
+  #completeSaleBtn {
+    padding: 14px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .remove-btn {
+    font-size: 16px;
+    padding: 8px 10px;
+  }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAROL'S SCENTS - Point of Sale</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="pos.css">
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+  <div class="layout">
+
+    <!-- Sidebar (same as dashboard) -->
+   <div class="sidebar">
+  <div class="logo">🧴✨🌸</div>
+  <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
+  <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
+  <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
+  <a href="inventory.html" style="text-decoration: none;"><div class="nav-item" id="nav-inventory">💊</div></a>
+  <a href="receipts.html" style="text-decoration: none;"><div class="nav-item" id="nav-receipts">🧾</div></a>
+  <a href="team.html" style="text-decoration: none;"><div class="nav-item" id="nav-team">👥</div></a>
+</div>
+    <!-- Main content -->
+    <div class="main">
+
+      <div class="topbar">
+        <h2>Point of Sale</h2>
+      <div class="profile-menu">
+  <div class="profile-trigger" id="profileTrigger">
+    <div class="avatar">👤</div>
+    <span id="userNameDisplay"></span>
+    <span class="caret">▾</span>
+  </div>
+  <div class="profile-dropdown" id="profileDropdown">
+    <div class="dropdown-item disabled" id="userRoleDisplay"></div>
+    <div class="dropdown-divider"></div>
+    <div class="dropdown-item" onclick="logout()">Sign Out</div>
+  </div>
+</div>
+      </div>
+
+      <div class="pos-box">
+
+<div class="add-product">
+  <div class="product-search">
+    <input type="text" id="productSearch" placeholder="Search product..." autocomplete="off">
+    <ul id="productList" class="product-list"></ul>
+  </div>
+  <input type="number" id="priceInput" placeholder="Price" min="0" step="any" title="Price (you can change it)">
+  <input type="number" id="qtyInput" placeholder="Qty" value="1" min="1">
+  <button id="addBtn">Add to Cart</button>
+</div>
+
+        <table id="cartTable">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cartBody">
+            <!-- Cart rows will be added here by JavaScript -->
+          </tbody>
+        </table>
+
+        <div class="grand-total">
+  Grand Total: <span id="grandTotal">0</span>
+</div>
+
+<div class="sale-datetime">
+  <label for="saleDateTime">Sale date & time:</label>
+  <input type="datetime-local" id="saleDateTime">
+</div>
+
+<button id="completeSaleBtn">Complete Sale</button>
+      </div>
+
+    </div>
+  </div>
+<script src="auth.js"></script>
+  <script src="pos.js"></script>
+</body>
+</html>

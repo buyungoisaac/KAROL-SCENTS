@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAROL'S SCENTS - Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+     
+    <div class="sidebar">
+  <div class="logo">🧴✨🌸</div>
+  <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
+  <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
+  <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
+  <a href="inventory.html" style="text-decoration: none;"><div class="nav-item" id="nav-inventory">💊</div></a>
+  <a href="receipts.html" style="text-decoration: none;"><div class="nav-item" id="nav-receipts">🧾</div></a>
+  <a href="team.html" style="text-decoration: none;"><div class="nav-item" id="nav-team">👥</div></a>
+  <a href="assistant.html" style="text-decoration: none;"><div class="nav-item" id="nav-assistant">🤖</div></a>
+</div>
+
+    <!-- Main content -->
+    <div class="main">
+
+      <div class="topbar">
+        <h2>KAROL'S SCENTS</h2>
+   <div class="profile-menu">
+  <div class="profile-trigger" id="profileTrigger">
+    <div class="avatar">👤</div>
+    <span id="userNameDisplay"></span>
+    <span class="caret">▾</span>
+  </div>
+  <div class="profile-dropdown" id="profileDropdown">
+    <div class="dropdown-item disabled" id="userRoleDisplay"></div>
+    <div class="dropdown-divider"></div>
+    <div class="dropdown-item" onclick="logout()">Sign Out</div>
+  </div>
+</div>
+      </div>
+
+      <div class="stats">
+  <div class="stat-card">
+    <h3 id="patientsCount">0</h3>
+    <p>Patients (7 days)</p>
+  </div>
+  <div class="stat-card">
+    <h3>0</h3>
+    <p>Visits today</p>
+  </div>
+  <div class="stat-card">
+    <h3 id="expiredCount">0</h3>
+    <p>Expired drugs</p>
+  </div>
+  <div class="stat-card">
+    <h3 id="outOfStockCount">0</h3>
+    <p>Out of stock</p>
+  </div>
+</div>
+
+      <div class="quick-access">
+        <h3>Quick Access</h3>
+        <div class="quick-btn" id="posQuickBtn">🛒 Point of Sale</div>
+      </div>
+
+    </div>
+  </div>
+
+<script src="auth.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

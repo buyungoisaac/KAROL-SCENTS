@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic ERP - Inventory</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="inventory.css">
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">🏥</div>
+      <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
+      <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
+      <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
+      <a href="inventory.html" style="text-decoration: none;"><div class="nav-item" id="nav-inventory">💊</div></a>
+      <a href="receipts.html" style="text-decoration: none;"><div class="nav-item" id="nav-receipts">🧾</div></a>
+      <a href="team.html" style="text-decoration: none;"><div class="nav-item" id="nav-team">👥</div></a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+
+      <div class="topbar">
+        <h2>Inventory</h2>
+     <div class="profile-menu">
+  <div class="profile-trigger" id="profileTrigger">
+    <div class="avatar">👤</div>
+    <span id="userNameDisplay"></span>
+    <span class="caret">▾</span>
+  </div>
+  <div class="profile-dropdown" id="profileDropdown">
+    <div class="dropdown-item disabled" id="userRoleDisplay"></div>
+    <div class="dropdown-divider"></div>
+    <div class="dropdown-item" onclick="logout()">Sign Out</div>
+  </div>
+</div>
+      </div>
+
+      <div class="inventory-box">
+
+        <div class="add-drug">
+            <div class="drug-name-wrap">
+              <input type="text" id="drugName" placeholder="Search or enter drug name..." autocomplete="off" aria-label="Search or enter drug name">
+              <div id="drugSuggestions" class="drug-suggestions" role="listbox" hidden></div>
+              <small id="drugNameHint" class="drug-name-hint" aria-live="polite">Start typing to find an existing drug or insert a new one.</small>
+            </div>
+            <input type="number" id="drugQty" placeholder="Quantity" min="1">
+            <input type="number" id="drugCostPrice" placeholder="Cost price" min="0">
+            <input type="number" id="drugSellingPrice" placeholder="Selling price" min="0">
+            <input type="date" id="drugExpiry">
+            <button id="addDrugBtn">Add to batch</button>
+        </div>
+
+        <!-- Pending batch: items wait here until submitted -->
+        <div class="batch-box" id="batchBox" style="display:none;">
+          <div class="batch-header">
+            <h3>Pending batch (<span id="batchCount">0</span>)</h3>
+            <div>
+              <button id="clearBatchBtn" class="secondary-btn">Clear</button>
+              <button id="submitBatchBtn" class="submit-btn">Submit batch</button>
+            </div>
+          </div>
+          <table class="batch-table">
+            <thead>
+              <tr>
+                <th>Drug</th><th>Qty</th><th>Cost</th><th>Selling</th><th>Expiry</th><th>Result</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="batchBody"></tbody>
+          </table>
+        </div>
+
+        <table id="drugsTable">
+  <thead>
+  <tr>
+    <th>Drug</th>
+    <th>Quantity</th>
+    <th>Cost Price</th>
+    <th>Selling Price</th>
+    <th>Expiry Date</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+</thead>
+  <tbody id="drugsBody">
+    <!-- Drug rows added here by JavaScript -->
+  </tbody>
+</table>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="inventory.js"></script>
+</body>
+</html>

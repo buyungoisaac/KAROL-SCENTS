@@ -1,0 +1,158 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: var(--color-background, #FAF7F0);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: var(--color-text, #303832);
+}
+
+/* Login card */
+.login-box {
+  background: var(--color-surface, #FFFFFF);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border, #E3DED2);
+  box-shadow: 0 10px 30px rgba(33, 78, 61, 0.10);
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ClinicDesk heading */
+.login-box h1 {
+  color: var(--color-primary, #214E3D);
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.login-box p {
+  color: var(--color-text-muted, #686F69);
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Login inputs */
+.login-box input {
+  display: block;
+  width: 100%;
+  padding: 12px 13px;
+  margin-bottom: 14px;
+  border: 1px solid var(--color-border, #E3DED2);
+  border-radius: 9px;
+  background-color: var(--color-surface, #FFFFFF);
+  color: var(--color-text, #303832);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-box input:focus,
+.password-wrapper input:focus {
+  border-color: var(--color-primary, #214E3D);
+  box-shadow: 0 0 0 3px rgba(33, 78, 61, 0.10);
+}
+
+.login-box input::placeholder {
+  color: #929891;
+}
+
+/* Login button */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-primary, #214E3D);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.login-box button:hover {
+  background-color: var(--color-primary-hover, #193B2E);
+}
+
+.login-box button:active {
+  transform: scale(0.98);
+}
+
+.login-box button:focus-visible {
+  outline: 3px solid rgba(33, 78, 61, 0.25);
+  outline-offset: 3px;
+}
+
+/* Password visibility wrapper */
+.password-wrapper {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.password-wrapper input {
+  display: block;
+  width: 100%;
+  padding: 12px 40px 12px 13px;
+  margin-bottom: 0;
+  border: 1px solid var(--color-border, #E3DED2);
+  border-radius: 9px;
+  background-color: var(--color-surface, #FFFFFF);
+  color: var(--color-text, #303832);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.password-wrapper span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--color-text-muted, #686F69);
+  user-select: none;
+}
+
+.password-wrapper span:hover {
+  color: var(--color-primary, #214E3D);
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+  }
+
+  .login-box {
+    padding: 30px 22px;
+    border-radius: 13px;
+  }
+
+  .login-box h1 {
+    font-size: 25px;
+  }
+}
+
+.brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto 20px;
+  object-fit: contain;
+}
