@@ -19,14 +19,23 @@
     <!-- Sidebar -->
      
     <div class="sidebar">
-  <div class="logo">🧴✨🌸</div>
-  <a href="dashboard.html" style="text-decoration: none;"><div class="nav-item" id="nav-home">🏠</div></a>
-  <a href="pos.html" style="text-decoration: none;"><div class="nav-item" id="nav-pos">🛒</div></a>
-  <a href="records.html" style="text-decoration: none;"><div class="nav-item" id="nav-records">📋</div></a>
-  <a href="inventory.html" style="text-decoration: none;"><div class="nav-item" id="nav-inventory">💊</div></a>
-  <a href="receipts.html" style="text-decoration: none;"><div class="nav-item" id="nav-receipts">🧾</div></a>
-  <a href="team.html" style="text-decoration: none;"><div class="nav-item" id="nav-team">👥</div></a>
-  <a href="assistant.html" style="text-decoration: none;"><div class="nav-item" id="nav-assistant">🤖</div></a>
+  <img class="logo-img" src="LOGO.png" alt="Karol's Scents">
+
+  <a href="dashboard.html" title="Home"><div class="nav-item" id="nav-home">
+    <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div></a>
+
+  <a href="pos.html" title="Sales"><div class="nav-item" id="nav-pos">
+    <svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2 2h2l2.7 12.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L22 7H5"/></svg></div></a>
+
+  <a href="inventory.html" title="Inventory"><div class="nav-item" id="nav-inventory">
+      <svg viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+</div></a>
+
+  <a href="receipts.html" title="Receipts"><div class="nav-item" id="nav-receipts">
+    <svg viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1ZM16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8M12 17.5v-11"/></svg></div></a>
+
+  <a href="team.html" title="Team"><div class="nav-item" id="nav-team">
+    <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div></a>
 </div>
 
     <!-- Main content -->
@@ -36,9 +45,11 @@
         <h2>KAROL'S SCENTS</h2>
    <div class="profile-menu">
   <div class="profile-trigger" id="profileTrigger">
-    <div class="avatar">👤</div>
+    <div class="avatar">
+      <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
     <span id="userNameDisplay"></span>
-    <span class="caret">▾</span>
+    <svg class="caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
   </div>
   <div class="profile-dropdown" id="profileDropdown">
     <div class="dropdown-item disabled" id="userRoleDisplay"></div>

@@ -1,5 +1,5 @@
 // Service worker: lets the app open with no internet.
-const CACHE = "clinic-erp-v1"; // change v1 -> v2 after each deploy to force a refresh
+const CACHE = "clinic-erp-v2"; // change v1 -> v2 after each deploy to force a refresh
 
 const FILES = [
   "./", "index.html", "dashboard.html", "pos.html", "records.html",

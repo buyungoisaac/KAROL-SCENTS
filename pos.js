@@ -198,9 +198,9 @@ addBtn.addEventListener("click", function () {
   const total = price * qty;
 
   // Reduce stock in Firestore immediately
-  db.collection("Products").doc(Product.id).update({
-    qty: Product.qty - qty
-  });
+ db.collection("products").doc(product.id).update({
+  qty: firebase.firestore.FieldValue.increment(-qty)
+});
 
   // Build cart row
   const row = document.createElement("tr");
@@ -233,9 +233,9 @@ addBtn.addEventListener("click", function () {
     // Restore stock in Firestore
     const currentProduct = Products.find(function (d) { return d.id === Product.id; });
     if (currentProduct) {
-      db.collection("Products").doc(Product.id).update({
-        qty: currentProduct.qty + qty
-      });
+      db.collection("products").doc(product.id).update({
+  qty: firebase.firestore.FieldValue.increment(qty)
+});
     }
 
     cartItems = cartItems.filter(function (item) { return item !== cartItem; });
