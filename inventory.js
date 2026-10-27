@@ -10,16 +10,16 @@ if (!isManager()) {
 
 document.getElementById("userNameDisplay").textContent = currentUser.name;
 
-const ProductNameInput = document.getElementById("ProductName");
-const ProductQtyInput = document.getElementById("ProductQty");
-const ProductCostPriceInput = document.getElementById("ProductCostPrice");
-const ProductSellingPriceInput = document.getElementById("ProductSellingPrice");
-const ProductExpiryInput = document.getElementById("ProductExpiry");
-const addProductBtn = document.getElementById("addProductBtn");
+const ProductsNameInput = document.getElementById("ProductsName");
+const ProductsQtyInput = document.getElementById("ProductsQty");
+const ProductsCostPriceInput = document.getElementById("ProductsCostPrice");
+const ProductsellingPriceInput = document.getElementById("ProductsellingPrice");
+const ProductsExpiryInput = document.getElementById("ProductsExpiry");
+const addProductsBtn = document.getElementById("addProductsBtn");
 const ProductsBody = document.getElementById("ProductsBody");
 
 const ProductSuggestions = document.getElementById("ProductSuggestions");
-const ProductNameHint = document.getElementById("ProductNameHint");
+const ProductsNameHint = document.getElementById("ProductsNameHint");
 const batchBox = document.getElementById("batchBox");
 const batchBody = document.getElementById("batchBody");
 const batchCount = document.getElementById("batchCount");
@@ -71,7 +71,7 @@ function findProductByName(name) {
   });
 }
 
-function getMatchingProductNames(term) {
+function getMatchingProductsNames(term) {
   if (!term) return [];
   const unique = new Map();
   Products.forEach(function (Product) {
@@ -89,30 +89,30 @@ function hideProductSuggestions() {
 }
 
 function selectExistingProduct(name) {
-  ProductNameInput.value = name;
+  ProductsNameInput.value = name;
   const existing = findProductByName(name);
   if (existing) {
-    ProductCostPriceInput.value = existing.costPrice ?? "";
-    ProductSellingPriceInput.value = existing.sellingPrice ?? "";
-    ProductNameHint.textContent = "Existing Product selected. Enter quantity and expiry for this batch.";
+    ProductsCostPriceInput.value = existing.costPrice ?? "";
+    ProductsellingPriceInput.value = existing.sellingPrice ?? "";
+    ProductsNameHint.textContent = "Existing Product selected. Enter quantity and expiry for this batch.";
   }
-  addProductBtn.textContent = "Add to batch";
+  addProductsBtn.textContent = "Add to batch";
   renderProducts();
   hideProductSuggestions();
-  ProductQtyInput.focus();
+  ProductsQtyInput.focus();
 }
 
-function updateProductNameSearch() {
-  const term = normalizeName(ProductNameInput.value);
+function updateProductsNameSearch() {
+  const term = normalizeName(ProductsNameInput.value);
   renderProducts();
   if (!term) {
     hideProductSuggestions();
-    ProductNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
-    addProductBtn.textContent = "Add to batch";
+    ProductsNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
+    addProductsBtn.textContent = "Add to batch";
     return;
   }
 
-  const matches = getMatchingProductNames(term);
+  const matches = getMatchingProductsNames(term);
   ProductSuggestions.innerHTML = "";
 
   matches.forEach(function (name) {
@@ -127,28 +127,28 @@ function updateProductNameSearch() {
     ProductSuggestions.appendChild(option);
   });
 
-  const exact = findProductByName(ProductNameInput.value);
+  const exact = findProductByName(ProductsNameInput.value);
   if (!exact) {
     const insertOption = document.createElement("button");
     insertOption.type = "button";
     insertOption.className = "Product-suggestion insert-suggestion";
     insertOption.setAttribute("role", "option");
-    insertOption.textContent = "＋ Insert new product: " + ProductNameInput.value.trim();
+    insertOption.textContent = "＋ Insert new product: " + ProductsNameInput.value.trim();
     insertOption.addEventListener("click", function () {
-      ProductNameInput.value = ProductNameInput.value.trim();
-      addProductBtn.textContent = "Insert new product";
-      ProductNameHint.textContent = "New product: fill in quantity, cost, selling price and expiry, then insert it into the batch.";
+      ProductsNameInput.value = ProductsNameInput.value.trim();
+      addProductsBtn.textContent = "Insert new product";
+      ProductsNameHint.textContent = "New product: fill in quantity, cost, selling price and expiry, then insert it into the batch.";
       hideProductSuggestions();
-      ProductQtyInput.focus();
+      ProductsQtyInput.focus();
     });
     ProductSuggestions.appendChild(insertOption);
-    addProductBtn.textContent = "Insert new product";
-    ProductNameHint.textContent = matches.length
+    addProductsBtn.textContent = "Insert new product";
+    ProductsNameHint.textContent = matches.length
       ? "No exact match. Choose a suggestion or insert this as a new product."
       : "No matching product found. Insert it as a new product.";
   } else {
-    addProductBtn.textContent = "Add to batch";
-    ProductNameHint.textContent = "Existing product found. Choose it to use its saved prices, or enter a new batch.";
+    addProductsBtn.textContent = "Add to batch";
+    ProductsNameHint.textContent = "Existing product found. Choose it to use its saved prices, or enter a new batch.";
   }
 
   ProductSuggestions.hidden = false;
@@ -156,7 +156,7 @@ function updateProductNameSearch() {
 
 // ---------- Main stock table (filtered by the combined Product search) ----------
 function renderProducts() {
-  const term = normalizeName(ProductNameInput.value);
+  const term = normalizeName(ProductsNameInput.value);
 
   const visible = Products
     .filter(function (Product) {
@@ -244,23 +244,23 @@ db.collection("Products").onSnapshot(function (snapshot) {
   renderBatch(); // keeps the "adds to existing" hints accurate
 });
 
-ProductNameInput.addEventListener("input", updateProductNameSearch);
-ProductNameInput.addEventListener("focus", function () {
-  if (ProductNameInput.value.trim()) updateProductNameSearch();
+ProductsNameInput.addEventListener("input", updateProductsNameSearch);
+ProductsNameInput.addEventListener("focus", function () {
+  if (ProductsNameInput.value.trim()) updateProductsNameSearch();
 });
 document.addEventListener("click", function (event) {
-  if (!event.target.closest(".Product-name-wrap")) hideProductSuggestions();
+  if (!event.target.closest(".Products-name-wrap")) hideProductSuggestions();
 });
 
 // ---------- Add an item to the pending batch ----------
-addProductBtn.addEventListener("click", function () {
-  const name = ProductNameInput.value.trim();
-  const qty = Number(ProductQtyInput.value);
-  const costPrice = Number(ProductCostPriceInput.value);
-  const sellingPrice = Number(ProductSellingPriceInput.value);
-  const expiry = ProductExpiryInput.value;
+addProductsBtn.addEventListener("click", function () {
+  const name = ProductsNameInput.value.trim();
+  const qty = Number(ProductsQtyInput.value);
+  const costPrice = Number(ProductsCostPriceInput.value);
+  const sellingPrice = Number(ProductsellingPriceInput.value);
+  const expiry = ProductsExpiryInput.value;
 
-  if (name === "" || ProductQtyInput.value === "" || ProductCostPriceInput.value === "" || ProductSellingPriceInput.value === "" || expiry === "") {
+  if (name === "" || ProductsQtyInput.value === "" || ProductsCostPriceInput.value === "" || ProductsellingPriceInput.value === "" || expiry === "") {
     alert("Please fill in all fields.");
     return;
   }
@@ -283,15 +283,15 @@ addProductBtn.addEventListener("click", function () {
     batch.push({ name: name, qty: qty, costPrice: costPrice, sellingPrice: sellingPrice, expiry: expiry });
   }
 
-  ProductNameInput.value = "";
-  ProductQtyInput.value = "";
-  ProductCostPriceInput.value = "";
-  ProductSellingPriceInput.value = "";
-  ProductExpiryInput.value = "";
-  ProductNameInput.focus();
+  ProductsNameInput.value = "";
+  ProductsQtyInput.value = "";
+  ProductsCostPriceInput.value = "";
+  ProductsellingPriceInput.value = "";
+  ProductsExpiryInput.value = "";
+  ProductsNameInput.focus();
   hideProductSuggestions();
-  ProductNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
-  addProductBtn.textContent = "Add to batch";
+  ProductsNameHint.textContent = "Start typing to find an existing Product or insert a new one.";
+  addProductsBtn.textContent = "Add to batch";
   renderProducts();
 
   renderBatch();
