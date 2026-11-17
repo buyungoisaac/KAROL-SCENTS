@@ -49,8 +49,14 @@
     <div class="dropdown-item" onclick="logout()">Sign Out</div>
   </div>
 </div>
+      </div>
 
-      <div class="pos-box">
+      <div class="tabs">
+        <button class="tab active" data-tab="users">Users</button>
+        <button class="tab" data-tab="company">Company</button>
+      </div>
+
+      <div class="pos-box" id="tab-users">
         <div class="add-product">
           <input type="text" id="newName" placeholder="Full name">
           <input type="text" id="newPhone" placeholder="Phone number">
@@ -74,6 +80,49 @@
           <tbody id="usersBody"></tbody>
         </table>
       </div>
+
+      <div class="pos-box" id="tab-company" hidden>
+        <div class="company-form">
+          <div class="logo-row">
+            <img id="logoPreview" src="LOGO.png" alt="Company logo">
+            <div class="logo-actions">
+              <label class="btn-secondary" for="logoFile">Change logo</label>
+              <input type="file" id="logoFile" accept="image/*" hidden>
+              <button type="button" class="btn-secondary" id="logoReset">Use default logo</button>
+            </div>
+          </div>
+
+          <label>Company name
+            <input type="text" id="coName" placeholder="Karol's Scents">
+          </label>
+          <label>Phone number
+            <input type="text" id="coPhone" placeholder="Company phone number">
+          </label>
+          <label>Address / location (optional)
+            <input type="text" id="coAddress" placeholder="e.g. Kampala Road, Shop 12">
+          </label>
+
+          <h3>Receipt</h3>
+          <label>Line under the company name (optional)
+            <input type="text" id="coHeader" placeholder="e.g. Quality perfumes &amp; oils">
+          </label>
+          <label>Message at the bottom
+            <textarea id="coFooter" rows="3" placeholder="Thank you for your purchase!"></textarea>
+          </label>
+          <label>Currency shown before amounts (optional)
+            <input type="text" id="coCurrency" placeholder="e.g. UGX">
+          </label>
+          <label class="check">
+            <input type="checkbox" id="coShowLogo"> Show the logo on printed receipts
+          </label>
+
+          <div class="form-actions">
+            <button type="button" id="coSave" class="btn-primary">Save changes</button>
+            <button type="button" id="coPreview" class="btn-secondary">Print a test receipt</button>
+            <span id="coStatus" class="co-status"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -82,6 +131,7 @@
 <script src="firebase-config.js"></script>
 <script src="offline.js"></script>
 <script src="auth.js"></script>
+<script src="company.js"></script>
 <script src="team.js"></script>
 </body>
 </html>

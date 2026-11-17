@@ -1,5 +1,5 @@
 // Service worker: lets the app open with no internet.
-const CACHE = "clinic-erp-v2"; // change v1 -> v2 after each deploy to force a refresh
+const CACHE = "clinic-erp-v3"; // change v1 -> v2 after each deploy to force a refresh
 
 const FILES = [
   "./", "index.html", "dashboard.html", "pos.html", "records.html",
@@ -8,7 +8,7 @@ const FILES = [
   "assistant.css", "style.css",
   "auth.js", "dashboard.js", "pos.js", "records.js", "inventory.js",
   "receipts.js", "team.js", "assistant.js", "script.js", "app.js",
-  "firebase-config.js", "offline.js", "manifest.json", "LOGO.png",
+  "firebase-config.js", "offline.js", "company.js", "manifest.json", "LOGO.png",
   "https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js",
   "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js",
   "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"

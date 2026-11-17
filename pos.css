@@ -456,3 +456,129 @@ tbody tr:hover {
     transition: none !important;
   }
 }
+
+/* ==========================================
+   TEAM PAGE: tabs + company settings
+   ========================================== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tabs .tab {
+  padding: 10px 22px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabs .tab.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+[hidden] { display: none !important; }
+
+.company-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.company-form h3 {
+  margin: 10px 0 0;
+  color: var(--color-primary);
+}
+
+.company-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.company-form input[type="text"],
+.company-form textarea {
+  padding: 12px 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  font: inherit;
+  font-weight: 400;
+  outline: none;
+}
+
+.company-form input[type="text"]:focus,
+.company-form textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(33, 78, 61, 0.10);
+}
+
+.company-form label.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo-row img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  padding: 6px;
+}
+
+.logo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: var(--radius-button);
+  border: 1px solid var(--color-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary { background: var(--color-primary); color: #FFFFFF; }
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary { background: var(--color-surface); color: var(--color-primary); }
+.btn-secondary:hover { background: #F1EEE5; }
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.co-status { font-size: 13px; color: var(--color-primary); font-weight: 600; }
+
+.company-form label.btn-secondary {
+  flex-direction: row;
+  font-size: 14px;
+  color: var(--color-primary);
+}

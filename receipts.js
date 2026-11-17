@@ -38,10 +38,15 @@ function renderReceipts(sales) {
       <div class="receipt-header">
         <span>Sale #${sale.saleNumber || "-"}</span>
         <span>${sale.date}</span>
+        <button class="print-btn" type="button">Print</button>
       </div>
       <table>${itemsHtml}</table>
       <div class="receipt-total">Total: ${sale.total}</div>
     `;
+
+    card.querySelector(".print-btn").addEventListener("click", function () {
+      printReceipt(sale);
+    });
 
     receiptsContainer.appendChild(card);
   });
